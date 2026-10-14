@@ -1,0 +1,16 @@
+Plant Monitor System w/ SAM3X8E
+=================================
+
+A plant monitor system that runs on the SAM3X8E microcontroller displaying ambient temperature, light, humidity, and soil moisture.
+
+Dependencies
+------------
+
+The following hardware is required for this software to run:
+
+- SAM3X8E Microcontroller
+- Waveshare 2-inch LCD Module w/ ST7789 Controller
+- BME280 Environment Sensor
+- SEN0193 Capacitive Soil Moisture Sensor
+- GY-302 BH1750FVI Ambient Light Sensor
+
