@@ -34,14 +34,10 @@ typedef enum
 
 typedef struct
 {
-    twi_mode_t      mode;
     uint32_t        dadr;
-    uint32_t        iadr;
-    twi_iadr_size_t iadr_size;
-    uint8_t         ckdiv;
-    uint8_t         chdiv;
-    uint8_t         cldiv;
-} twi_cfg_t;
+    twi_iadr_size_t iadr;
+    uint32_t        iadr_size;
+} twi_msg_cfg_t;
 
 /*================================
  * Macros
@@ -54,11 +50,18 @@ typedef struct
 /* Combined TWI0 pin mask */
 #define TWI0_PINS (TWI0_SCL | TWI0_SDA)
 
+/* Clock configuration */
+#define TWI_CKDIV 1
+#define TWI_CHDIV 208
+#define TWI_CLDIV 208
+
 /*================================
  * Function Declarations
  *================================*/
 
-void twi_init(const twi_cfg_t* cfg);
-void twi_read(uint8_t* msg);
+void twi_init();
+void twi_msg_configure(const twi_msg_cfg_t* cfg);
+void twi_read(uint8_t* msg, uint8_t len);
+void twi_write(uint8_t* msg, uint8_t len);
 
 #endif

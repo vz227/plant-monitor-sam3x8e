@@ -1,7 +1,7 @@
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 
-PROJECT_DIR = $(HOME)/Data/Uni/CSCI490/Project/plant-monitor
+PROJECT_DIR = $(HOME)/Data/Uni/CSCI490/Project/plant-monitor-sam3x8e
 BUILD_DIR = $(PROJECT_DIR)/build
 
 CPPFLAGS = \
