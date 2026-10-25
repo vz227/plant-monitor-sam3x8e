@@ -27,6 +27,16 @@ void bme280_init()
     twi_write(cfg, sizeof(cfg));
 }
 
+void bme280_read_humidity(uint8_t* buffer)
+{
+    return;
+}
+
+void bme280_read_pressure(uint8_t* buffer)
+{
+    return;
+}
+
 void bme280_read_temp(uint8_t* buffer)
 {
     /* Configure TWI message */
@@ -40,6 +50,26 @@ void bme280_read_temp(uint8_t* buffer)
     twi_read(buffer, TEMP_LEN);
 }
 
+int32_t bme280_compensate_humidity(uint8_t* adc_humidity)
+{
+    return;
+}
+
+int32_t bme280_compensate_pressure(uint8_t* adc_pressure)
+{
+    return;
+}
+
+int32_t bme280_compensate_temp(int32_t adc_temp)
+{
+    int32_t var1, var2, temp;
+    var1  = ((((adc_temp >> 3) – ((int32_t)dig_T1 << 1))) * ((int32_t)dig_T2)) >> 11;
+    var2  = (((((adc_temp >> 4) – ((uint32_t)dig_T1)) * ((adc_temp >> 4) – ((int32_t)dig_T1))) >> 12) * ((int32_t)dig_T3)) >> 14;
+    int32_t temp_fine = var1 + var2;
+    int32_t temp_centi_c  = (temp_fine * 5 + 128) >> 8;
+    return temp_centi_c;
+}
+
 void bme280_read_status(uint8_t* buffer)
 {
     twi_msg_cfg_t read_status_msg = {
@@ -50,28 +80,4 @@ void bme280_read_status(uint8_t* buffer)
 
     twi_msg_configure(&read_status_msg);
     twi_read(buffer, STATUS_LEN);
-}
-
-void bme280_ctrl_meas(uint8_t* buffer)
-{
-    twi_msg_cfg_t ctrl_meas_msg = {
-        .dadr = BME280_ADDR,
-        .iadr = CTRLMEAS_ADDR,
-        .iadr_size = TWI_ADDR_1BYTE
-    };
-
-    twi_msg_configure(&ctrl_meas_msg);
-    twi_read(buffer, 1);
-}
-
-void bme280_read_id(uint8_t* buffer)
-{
-    twi_msg_cfg_t read_id_msg = {
-        .dadr = BME280_ADDR,
-        .iadr = ID_ADDR,
-        .iadr_size = TWI_ADDR_1BYTE
-    };
-
-    twi_msg_configure(&read_id_msg);
-    twi_read(buffer, ID_LEN);
 }

@@ -13,9 +13,10 @@
 void display_init()
 {
     st7789_init();
+    st7789_clear(BG_COLOR);
 }
 
-void display_msg(char* str, const uint8_t col, const uint8_t row)
+void display_text(const char* str, uint8_t col, uint8_t row)
 {
     for (uint8_t i = 0; str[i] != '\0'; i++)
     {
@@ -28,9 +29,4 @@ void display_msg(char* str, const uint8_t col, const uint8_t row)
             font[(uint8_t)str[i]].pixel_data
         );
     }
-}
-
-void display_clear()
-{
-    st7789_draw_rectangle(0, DISPLAY_WIDTH, 0, DISPLAY_HEIGHT, BG_COLOR);
 }

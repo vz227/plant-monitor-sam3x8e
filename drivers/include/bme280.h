@@ -14,7 +14,7 @@
 
 
 /*================================
- * Important Addresses
+ * Addresses
  *================================*/
 
 #define BME280_ADDR 0x76
@@ -35,17 +35,24 @@
 #define ID_LEN     1
 
 /*================================
+ * Coefficients
+ *================================*/
+
+
+
+/*================================
  * Function Declarations
  *================================*/
 
 void bme280_init();
 void bme280_read_hum(uint8_t* buffer);
-void bme280_read_temp(uint8_t* buffer);
 void bme280_read_press(uint8_t* buffer);
-void bme280_ctrl_meas(uint8_t* buffer);
+void bme280_read_temp(uint8_t* buffer);
+int32_t bme280_compensate_humidity(uint8_t* adc_humidity)
+int32_t bme280_compensate_pressure(uint8_t* adc_pressure)
+int32_t bme280_compensate_temp(int32_t adc_temp)
 void bme280_read_status(uint8_t* buffer);
-void bme280_reset();
-void bme280_read_id(uint8_t* buffer);
+
 
 #endif
 

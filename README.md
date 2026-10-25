@@ -1,10 +1,8 @@
-Plant Monitor System w/ SAM3X8E
-=================================
+# Plant Monitor System w/ SAM3X8E
 
 A plant monitor system that runs on the SAM3X8E microcontroller displaying ambient temperature, light, humidity, and soil moisture.
 
-Dependencies
-------------
+## Dependencies
 
 The following hardware is required for this software to run:
 

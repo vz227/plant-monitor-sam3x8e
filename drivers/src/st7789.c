@@ -151,36 +151,39 @@ static void st7789_set_window(uint16_t xs, uint16_t xe, uint16_t ys, uint16_t ye
     st7789_write_cmd(RAMWR);
 }
 
-void st7789_draw_rectangle(const uint16_t xs, const uint16_t xe, const uint16_t ys, const uint16_t ye, const uint16_t color)
+void st7789_clear(const uint16_t color)
 {
-    uint8_t pixel[] =
-    {
-        color >> 8u,
-        color & 0xFF
-    };
+    st7789_set_window(0, DISPLAY_WIDTH - 1, 0, DISPLAY_HEIGHT - 1);
 
-    st7789_set_window(xs, xe - 1, ys, ye - 1);
-    for (uint16_t i = ys; i < ye; i++)
-        for (uint16_t j = xs; j < xe; j++)
-            st7789_write_data(pixel, sizeof(pixel));
+    uint8_t pixel_buffer[DISPLAY_WIDTH * 2u];
+
+    for (size_t i = 0; i < sizeof(pixel_buffer); i += 2 )
+    {
+        pixel_buffer[i] = color >> 8u;
+        pixel_buffer[i+1] = color & 0xFFu;
+    }
+
+    for (size_t j = 0; j < DISPLAY_HEIGHT; j++)
+        st7789_write_data(pixel_buffer, sizeof(pixel_buffer));
 }
 
 void st7789_draw_glyph(const uint16_t xs, const uint16_t ys, const uint16_t glyph_width, const uint16_t glyph_height, const uint16_t fg_color, const uint16_t bg_color, const uint8_t* bitmap_data)
 {
     st7789_set_window(xs, (xs + glyph_width) - 1, ys, (ys + glyph_height) - 1);
 
-    for (uint16_t i = 0; i < glyph_height; i++)
+    uint8_t glyph_buffer[(glyph_width * glyph_height) * 2u];
+
+    for (size_t i = 0; i < glyph_height; i++)
     {
-        for (uint16_t j = 0; j < glyph_width; j++)
+        for (size_t j = 0; j < glyph_width; j++)
         {
             uint16_t color = (bitmap_data[i] & (1u << (7u - j))) ? fg_color : bg_color;
-            uint8_t pixel[] =
-            {
-                color >> 8u,
-                color & 0xFF
-            };
+            size_t pixel_index = ((i * glyph_width) + j) * 2u;
 
-            st7789_write_data(pixel, sizeof(pixel));
+            glyph_buffer[pixel_index] = color >> 8u;
+            glyph_buffer[pixel_index + 1] = color & 0xFF;
         }
     }
+
+    st7789_write_data(glyph_buffer, sizeof(glyph_buffer));
 }

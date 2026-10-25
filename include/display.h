@@ -1,7 +1,7 @@
 /** @file display.h
- *  @brief Text rendering interface for ST7789 display driver.
+ *  @brief Display interface of plant monitor application layer
  *
- *  Contains 
+ *
  *
  *  @author Vladimir Zhelev
  *  @version 0.0.0
@@ -13,6 +13,10 @@
 
 #include "st7789.h"
 
+/*================================
+ * Display Parameters
+ *================================*/
+
 #define BG_COLOR 0x0821
 #define FG_COLOR 0xBDF7
 
@@ -21,6 +25,37 @@
 
 #define COLS (DISPLAY_WIDTH/GLYPH_WIDTH)
 #define ROWS (DISPLAY_HEIGHT/GLYPH_HEIGHT)
+
+/*================================
+ * Row/Column Coordinates of Display Regions
+ *================================*/
+
+#define HUMIDITY_CS 8
+#define HUMIDITY_RS 2
+#define HUMIDITY_CE 32
+#define HUMIDITY_RE 3
+
+#define PRESSURE_CS 8
+#define PRESSURE_RS 3
+#define PRESSURE_CE 32
+#define PRESSURE_RE 4
+
+#define TEMPERATURE_CS 8
+#define TEMPERATURE_RS 4
+#define TEMPERATURE_CE 32
+#define TEMPERATURE_RE 5
+
+/*================================
+ * Function Declarations
+ *================================*/
+
+void display_init();
+void display_clear();
+void display_text(const char* str, uint8_t col, uint8_t row);
+
+/*================================
+ * Font Definition
+ *================================*/
 
 typedef struct {
     uint8_t pixel_data[12];
@@ -621,13 +656,7 @@ static const glyph_t font[128] = {
     }
 };
 
-/*================================
- * Function Declarations
- *================================*/
 
-void display_init();
-void display_clear();
-void display_msg(char* str, const uint8_t col, const uint8_t row);
 
 #endif
 

@@ -28,7 +28,7 @@
  *================================*/
 
 void st7789_init();
-void st7789_draw_rectangle(const uint16_t xs, const uint16_t xe, const uint16_t ys, const uint16_t ye, const uint16_t color);
+void st7789_clear(const uint16_t color);
 void st7789_draw_glyph(const uint16_t xs, const uint16_t ys, const uint16_t glyph_width, const uint16_t glyph_height, const uint16_t fg_color, const uint16_t bg_color, const uint8_t* bitmap_data);
 
 /*================================
