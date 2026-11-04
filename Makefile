@@ -1,13 +1,15 @@
 CC = arm-none-eabi-gcc
 OBJCOPY = arm-none-eabi-objcopy
 
-PROJECT_DIR = $(HOME)/Data/Uni/CSCI490/Project/plant-monitor-sam3x8e
+PROJECT_DIR = $(CURDIR)
 BUILD_DIR = $(PROJECT_DIR)/build
 
 CPPFLAGS = \
 	   -I./sam3xa/include \
 	   -I./hal/include \
 	   -I./drivers/include \
+	   -I./freertos-kernel/include \
+	   -I./freertos-kernel/portable/GCC/ARM_CM3 \
 	   -I./include \
 	   -D__SAM3X8E__
 
@@ -27,16 +29,48 @@ LDFLAGS = \
 	  -L./sam3xa/source/gcc_atmel \
 	  -nostartfiles
 
+APP_SRCS = \
+       src/main.c \
+       src/display.c \
+       src/sensors.c \
+       src/convert.c
+
+DRIVER_SRCS = \
+	drivers/src/st7789.c \
+	drivers/src/bme280.c
+
+HAL_SRCS = \
+	hal/src/pio.c \
+	hal/src/spi.c \
+	hal/src/twi.c \
+	hal/src/time.c
+
+FREERTOS_SRCS = \
+	freertos-kernel/tasks.c \
+	freertos-kernel/queue.c \
+	freertos-kernel/list.c \
+	freertos-kernel/timers.c \
+	freertos-kernel/stream_buffer.c \
+	freertos-kernel/croutine.c \
+	freertos-kernel/event_groups.c \
+	freertos-kernel/portable/GCC/ARM_CM3/port.c \
+	freertos-kernel/portable/MemMang/heap_4.c
+
+STARTUP_SRCS = \
+	sam3xa/source/gcc_atmel/startup_sam3xa.c
+
+APP_OBJS      = $(patsubst %.c,$(BUILD_DIR)/%.o,$(APP_SRCS))
+DRIVER_OBJS   = $(patsubst %.c,$(BUILD_DIR)/%.o,$(DRIVER_SRCS))
+HAL_OBJS      = $(patsubst %.c,$(BUILD_DIR)/%.o,$(HAL_SRCS))
+FREERTOS_OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(FREERTOS_SRCS))
+STARTUP_OBJS  = $(patsubst %.c,$(BUILD_DIR)/%.o,$(STARTUP_SRCS))
+
 OBJS = \
-       $(BUILD_DIR)/main.o \
-       $(BUILD_DIR)/display.o \
-       $(BUILD_DIR)/pio.o \
-       $(BUILD_DIR)/spi.o \
-       $(BUILD_DIR)/twi.o \
-       $(BUILD_DIR)/time.o \
-       $(BUILD_DIR)/st7789.o \
-       $(BUILD_DIR)/bme280.o \
-       $(BUILD_DIR)/startup_sam3xa.o
+	$(APP_OBJS) \
+	$(DRIVER_OBJS) \
+	$(HAL_OBJS) \
+	$(FREERTOS_OBJS) \
+	$(STARTUP_OBJS)
 
 .PHONY: all elf clean
 
@@ -50,31 +84,8 @@ clean:
 $(BUILD_DIR):
 	mkdir -p $@
 
-$(BUILD_DIR)/main.o: src/main.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/display.o: src/display.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/pio.o: hal/src/pio.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/spi.o: hal/src/spi.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/twi.o: hal/src/twi.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/time.o: hal/src/time.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/st7789.o: drivers/src/st7789.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/bme280.o: drivers/src/bme280.c | $(BUILD_DIR)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
-
-$(BUILD_DIR)/startup_sam3xa.o: sam3xa/source/gcc_atmel/startup_sam3xa.c | $(BUILD_DIR)
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+	mkdir -p $(dir $@)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/firmware.elf: $(OBJS)
@@ -82,4 +93,3 @@ $(BUILD_DIR)/firmware.elf: $(OBJS)
 
 $(BUILD_DIR)/firmware.bin: $(BUILD_DIR)/firmware.elf
 	$(OBJCOPY) -O binary $< $@
-

@@ -11,7 +11,7 @@
 #include "twi.h"
 #include "sam3xa.h"
 
-void twi_msg_configure(const twi_msg_cfg_t* cfg)
+void twi_configure(const twi_cfg_t* cfg)
 {
     /* Disable slave mode & enable master mode */
     TWI0->TWI_CR =

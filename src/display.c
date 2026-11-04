@@ -9,14 +9,9 @@
  */
 
 #include "display.h"
+#include "convert.h"
 
-void display_init()
-{
-    st7789_init();
-    st7789_clear(BG_COLOR);
-}
-
-void display_text(const char* str, uint8_t col, uint8_t row)
+static void display_text(const char* str, uint8_t col, uint8_t row)
 {
     for (uint8_t i = 0; str[i] != '\0'; i++)
     {
@@ -29,4 +24,34 @@ void display_text(const char* str, uint8_t col, uint8_t row)
             font[(uint8_t)str[i]].pixel_data
         );
     }
+}
+
+void display_init()
+{
+    st7789_init();
+    st7789_clear(BG_COLOR);
+}
+
+void display_title()
+{
+    static const char title[] = "plant monitor sam3x8e";
+    display_text(title, TITLE_CS, TITLE_RS);
+}
+
+void display_humidity()
+{
+    return;
+}
+
+void display_pressure()
+{
+    return;
+}
+
+void display_temperature()
+{
+    int32_t temp = read_temp();
+    char temp_str[8];
+    int32_str(temp, temp_str);
+    display_text(temp_str, TEMPERATURE_CS, TEMPERATURE_RS);
 }

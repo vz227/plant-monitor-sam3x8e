@@ -37,7 +37,7 @@ typedef struct
     uint32_t        dadr;
     twi_iadr_size_t iadr;
     uint32_t        iadr_size;
-} twi_msg_cfg_t;
+} twi_cfg_t;
 
 /*================================
  * Macros
@@ -60,7 +60,7 @@ typedef struct
  *================================*/
 
 void twi_init();
-void twi_msg_configure(const twi_msg_cfg_t* cfg);
+void twi_configure(const twi_cfg_t* cfg);
 void twi_read(uint8_t* msg, uint8_t len);
 void twi_write(uint8_t* msg, uint8_t len);
 

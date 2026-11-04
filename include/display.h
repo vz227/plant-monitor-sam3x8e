@@ -12,6 +12,7 @@
 #define DISPLAY_H
 
 #include "st7789.h"
+#include "sensors.h"
 
 /*================================
  * Display Parameters
@@ -30,28 +31,36 @@
  * Row/Column Coordinates of Display Regions
  *================================*/
 
+#define TITLE_CS 8
+#define TITLE_RS 2
+#define TITLE_CE 32
+#define TITLE_RE 3
+
 #define HUMIDITY_CS 8
-#define HUMIDITY_RS 2
+#define HUMIDITY_RS 4
 #define HUMIDITY_CE 32
-#define HUMIDITY_RE 3
+#define HUMIDITY_RE 5
 
 #define PRESSURE_CS 8
-#define PRESSURE_RS 3
+#define PRESSURE_RS 5
 #define PRESSURE_CE 32
-#define PRESSURE_RE 4
+#define PRESSURE_RE 6
 
 #define TEMPERATURE_CS 8
-#define TEMPERATURE_RS 4
+#define TEMPERATURE_RS 6
 #define TEMPERATURE_CE 32
-#define TEMPERATURE_RE 5
+#define TEMPERATURE_RE 7
 
 /*================================
  * Function Declarations
  *================================*/
 
 void display_init();
-void display_clear();
-void display_text(const char* str, uint8_t col, uint8_t row);
+void display_title();
+void display_humidity();
+void display_pressure();
+void display_temperature();
+
 
 /*================================
  * Font Definition

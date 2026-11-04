@@ -24,7 +24,9 @@
 #define CTRLMEAS_ADDR 0xF4
 #define STATUS_ADDR 0xF3
 #define RESET_ADDR  0xE0
+#define CALIBB_ADDR 0xE1
 #define ID_ADDR     0xD0
+#define CALIBA_ADDR 0x88
 
 /*================================
  * Length of Addresses (Regs Occupied)
@@ -33,27 +35,31 @@
 #define TEMP_LEN   3
 #define STATUS_LEN 1
 #define ID_LEN     1
+#define CALIBA_LEN 26
+#define CALIBB_LEN 7
 
 /*================================
- * Coefficients
+ * Calibration Coefficients
  *================================*/
 
-
+typedef struct {
+    uint16_t dig_T1;
+    uint16_t dig_T2;
+    uint16_t dig_T3;
+} bme280_t;
 
 /*================================
  * Function Declarations
  *================================*/
 
 void bme280_init();
-void bme280_read_hum(uint8_t* buffer);
-void bme280_read_press(uint8_t* buffer);
 void bme280_read_temp(uint8_t* buffer);
-int32_t bme280_compensate_humidity(uint8_t* adc_humidity)
-int32_t bme280_compensate_pressure(uint8_t* adc_pressure)
-int32_t bme280_compensate_temp(int32_t adc_temp)
 void bme280_read_status(uint8_t* buffer);
+void bme280_read_calib_a(uint8_t* buffer);
+void bme280_read_calib_b(uint8_t* buffer);
+int32_t bme280_compensate_humidity(uint8_t* adc_humidity);
+int32_t bme280_compensate_pressure(uint8_t* adc_pressure);
+int32_t bme280_compensate_temp(int32_t adc_temp);
 
 
 #endif
-
-
