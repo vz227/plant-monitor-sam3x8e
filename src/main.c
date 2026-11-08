@@ -17,6 +17,8 @@ int main()
 
     display_title();
     display_temperature();
+    display_humidity();
+    display_pressure();
 
     while (1);
 }

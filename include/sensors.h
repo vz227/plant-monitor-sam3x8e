@@ -14,4 +14,6 @@
  *================================*/
 
 void sensors_init();
-int32_t read_temp();
+uint32_t read_humidity();
+uint32_t read_pressure();
+int32_t read_temperature();
