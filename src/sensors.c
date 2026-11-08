@@ -10,12 +10,14 @@
 
 #include "sensors.h"
 
+sensor_data_t sensor_data;
+
 void sensors_init()
 {
     bme280_init();
 }
 
-uint32_t read_humidity()
+void read_humidity()
 {
     uint8_t hum_buffer[HUMIDITY_LEN];
     bme280_read_humidity(hum_buffer);
@@ -24,11 +26,10 @@ uint32_t read_humidity()
         ((int32_t)hum_buffer[0] << 8) |
         (int32_t)hum_buffer[1];
 
-    uint32_t humidity = bme280_compensate_humidity(adc_humidity);
-    return humidity;
+    sensor_data.humidity = bme280_compensate_humidity(adc_humidity);
 }
 
-uint32_t read_pressure()
+void read_pressure()
 {
     uint8_t press_buffer[PRESSURE_LEN];
     bme280_read_pressure(press_buffer);
@@ -38,11 +39,10 @@ uint32_t read_pressure()
     ((int32_t)press_buffer[1] << 4)  |
     ((int32_t)press_buffer[2] >> 4);
 
-    uint32_t pressure = bme280_compensate_pressure(adc_pressure);
-    return pressure;
+    sensor_data.pressure = bme280_compensate_pressure(adc_pressure);
 }
 
-int32_t read_temperature()
+void read_temperature()
 {
     uint8_t temp_buffer[TEMPERATURE_LEN];
     bme280_read_temp(temp_buffer);
@@ -52,6 +52,5 @@ int32_t read_temperature()
         ((int32_t)temp_buffer[1] << 4)  |
         ((int32_t)temp_buffer[2] >> 4);
 
-    int32_t temp = bme280_compensate_temp(adc_temp);
-    return temp;
+    sensor_data.temperature = bme280_compensate_temp(adc_temp);
 }

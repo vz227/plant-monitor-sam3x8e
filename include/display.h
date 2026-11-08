@@ -61,7 +61,6 @@ void display_humidity();
 void display_pressure();
 void display_temperature();
 
-
 /*================================
  * Font Definition
  *================================*/

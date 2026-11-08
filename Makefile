@@ -8,8 +8,8 @@ CPPFLAGS = \
 	   -I./sam3xa/include \
 	   -I./hal/include \
 	   -I./drivers/include \
-	   -I./freertos-kernel/include \
-	   -I./freertos-kernel/portable/GCC/ARM_CM3 \
+	   -I./kernel/include \
+	   -I./kernel/portable/GCC/ARM_CM3 \
 	   -I./include \
 	   -D__SAM3X8E__
 
@@ -46,15 +46,15 @@ HAL_SRCS = \
 	hal/src/time.c
 
 FREERTOS_SRCS = \
-	freertos-kernel/tasks.c \
-	freertos-kernel/queue.c \
-	freertos-kernel/list.c \
-	freertos-kernel/timers.c \
-	freertos-kernel/stream_buffer.c \
-	freertos-kernel/croutine.c \
-	freertos-kernel/event_groups.c \
-	freertos-kernel/portable/GCC/ARM_CM3/port.c \
-	freertos-kernel/portable/MemMang/heap_4.c
+	kernel/tasks.c \
+	kernel/queue.c \
+	kernel/list.c \
+	kernel/timers.c \
+	kernel/stream_buffer.c \
+	kernel/croutine.c \
+	kernel/event_groups.c \
+	kernel/portable/GCC/ARM_CM3/port.c \
+	kernel/portable/MemMang/heap_4.c
 
 STARTUP_SRCS = \
 	sam3xa/source/gcc_atmel/startup_sam3xa.c

@@ -9,11 +9,24 @@
 
 #include "bme280.h"
 
+#ifndef SENSORS_H
+#define SENSORS_H
+
+typedef struct {
+    uint32_t humidity;
+    uint32_t pressure;
+    int32_t  temperature;
+} sensor_data_t;
+
+extern sensor_data_t sensor_data;
+
 /*================================
  * Function Declarations
  *================================*/
 
 void sensors_init();
-uint32_t read_humidity();
-uint32_t read_pressure();
-int32_t read_temperature();
+void read_humidity();
+void read_pressure();
+void read_temperature();
+
+#endif

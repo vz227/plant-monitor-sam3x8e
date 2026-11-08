@@ -40,24 +40,24 @@ void display_title()
 
 void display_humidity()
 {
-    uint32_t humidity = read_humidity();
+    read_humidity();
     char hum_str[8];
-    int32_str((int32_t)humidity, hum_str);
+    int32_str((int32_t)sensor_data.humidity, hum_str);
     display_text(hum_str, HUMIDITY_CS, HUMIDITY_RS);
 }
 
 void display_pressure()
 {
-    uint32_t pressure = read_pressure();
+    read_pressure();
     char press_str[8];
-    int32_str((int32_t)pressure, press_str);
+    int32_str((int32_t)sensor_data.pressure, press_str);
     display_text(press_str, PRESSURE_CS, PRESSURE_RS);
 }
 
 void display_temperature()
 {
-    int32_t temp = read_temperature();
+    read_temperature();
     char temp_str[8];
-    int32_str(temp, temp_str);
+    int32_str(sensor_data.temperature, temp_str);
     display_text(temp_str, TEMPERATURE_CS, TEMPERATURE_RS);
 }
